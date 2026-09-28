@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -115,7 +117,9 @@
 
 
         /* =========================================================
-           NAVEGACIÓ
+           CAPÇALERA
+           
+           Aquí van los botones superiores
         ========================================================= */
 
         header {
@@ -134,7 +138,7 @@
             z-index: 100;
 
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
 
             background:
@@ -158,11 +162,6 @@
             display: flex;
             align-items: center;
 
-            /*
-             * CORREGIT:
-             * L'antic clamp tenia el mínim (5rem) per damunt
-             * del màxim (3.2rem), cosa que el feia incoherent.
-             */
             height: clamp(2.3rem, 4vw, 3.8rem);
 
             width: auto;
@@ -197,45 +196,6 @@
 
 
         /* =========================================================
-           NAVEGACIÓ DRETA
-        ========================================================= */
-
-        .nav-links {
-            pointer-events: auto;
-
-            display: flex;
-            align-items: center;
-
-            gap: clamp(1rem, 3vw, 3vw);
-
-            flex: 0 0 auto;
-        }
-
-        .nav-links a {
-            font-size:
-                clamp(0.58rem, 1.2vw, 0.68rem);
-
-            font-weight: 500;
-
-            letter-spacing: 0.25em;
-
-            text-transform: uppercase;
-
-            opacity: 0.5;
-
-            white-space: nowrap;
-
-            transition:
-                opacity 0.4s var(--ease-out);
-        }
-
-        .nav-links a.active,
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-
-        /* =========================================================
            HERO
         ========================================================= */
 
@@ -264,9 +224,7 @@
 
         .hero-bg {
             position: absolute;
-
             inset: 0;
-
             z-index: 0;
         }
 
@@ -1306,12 +1264,16 @@
 
             /* -----------------------------------------------------
                CAPÇALERA
+               NOMÉS LOGOTIP — SENSE BOTONS
             ----------------------------------------------------- */
 
             header {
                 padding:
                     1.2rem
                     1.2rem;
+
+                justify-content:
+                    flex-start;
             }
 
             .header-logo {
@@ -1324,20 +1286,6 @@
             .logo-estudiants img {
                 max-width:
                     125px;
-            }
-
-            .nav-links {
-                gap: 0.8rem;
-
-                max-width: 55%;
-            }
-
-            .nav-links a {
-                font-size:
-                    0.55rem;
-
-                letter-spacing:
-                    0.16em;
             }
 
 
@@ -1625,10 +1573,6 @@
                     1px;
             }
 
-            /*
-             * En mòbil no existeix hover real.
-             * Les fotografies es mostren directament en color.
-             */
             .frame img {
                 filter:
                     grayscale(0%);
@@ -1739,7 +1683,6 @@
                     0.2em;
             }
 
-            /* En móvil no mostrar el enlace a Capitania */
             .capitania-link {
                 display: none;
             }
@@ -1767,19 +1710,6 @@
             .logo-estudiants img {
                 max-width:
                     100px;
-            }
-
-            .nav-links {
-                gap:
-                    0.6rem;
-            }
-
-            .nav-links a {
-                font-size:
-                    0.48rem;
-
-                letter-spacing:
-                    0.12em;
             }
 
             .hero {
@@ -1840,7 +1770,7 @@
 
 
         /* =========================================================
-           PANTALLAS ALTES / ORIENTACIÓ MÒBIL
+           PANTALLES ALTES / ORIENTACIÓ MÒBIL
         ========================================================= */
 
         @media (max-width: 767px) and (min-height: 800px) {
@@ -1942,6 +1872,10 @@
 
     <!-- =========================================================
          CAPÇALERA
+         
+         IMPORTANTE:
+         NO HI HA CAP BOTÓ "CAPITANIA".
+         NOMÉS EL LOGOTIP.
     ========================================================= -->
 
     <header>
@@ -1956,17 +1890,6 @@
                 alt="Estudiants d'Onil">
 
         </a>
-
-
-        <nav class="nav-links">
-
-            <a href="#contacte">
-
-                Contacte
-
-            </a>
-
-        </nav>
 
     </header>
 
@@ -2229,8 +2152,7 @@
                         <p>
                             Tornem a eixir de la comparsa, fem poble,
                             fem festa i fem la volta que toca. Música,
-                            carrer i Estudiants fins tornar al nostre
-                            lloc. Perquè ja sabem com va açò:
+                            carrer i Estudiants fins tornar a l comparsa. Perquè ja sabem com va açò:
                             començar és fàcil, parar ja és una altra història.
                         </p>
 
@@ -2328,8 +2250,6 @@
                 class="essay-grid"
                 id="gallery-grid">
 
-                <!-- Les imatges es carreguen dinàmicament -->
-
             </div>
 
 
@@ -2349,9 +2269,7 @@
         <div class="colophon-grid">
 
 
-            <!-- ================================================
-                 ESTEBAN
-            ================================================= -->
+            <!-- ESTEBAN -->
 
             <div class="col-block">
 
@@ -2378,9 +2296,7 @@
             </div>
 
 
-            <!-- ================================================
-                 CONTACTE
-            ================================================= -->
+            <!-- CONTACTE -->
 
             <div class="col-block">
 
@@ -2409,9 +2325,7 @@
             </div>
 
 
-            <!-- ================================================
-                 COL·LECCIÓ
-            ================================================= -->
+            <!-- COL·LECCIÓ -->
 
             <div class="col-block">
 
@@ -2433,7 +2347,9 @@
 
                     <li>
 
-                        <a href="capitania.html" class="capitania-link">
+                        <a
+                            href="capitania.html"
+                            class="capitania-link">
 
                             Capitania Família Vidal
 
@@ -2567,12 +2483,8 @@
                     : tardeImages;
 
 
-            /* Netejar galeria */
-
             grid.innerHTML = '';
 
-
-            /* Actualitzar pestanyes */
 
             tabBtns.forEach(btn => {
 
@@ -2591,8 +2503,6 @@
 
             });
 
-
-            /* Actualitzar textos */
 
             if (
                 sessionName === 'manana'
@@ -2614,8 +2524,6 @@
 
             }
 
-
-            /* Crear fotografies */
 
             images.forEach(
                 (src, index) => {
@@ -2644,8 +2552,6 @@
                     `;
 
 
-                    /* Obrir Lightbox */
-
                     frame.addEventListener(
                         'click',
                         () => {
@@ -2664,8 +2570,6 @@
                 }
             );
 
-
-            /* Animació esglaonada */
 
             setTimeout(
                 () => {
@@ -2693,8 +2597,6 @@
                 50
             );
 
-
-            /* Desplaçar-se fins a la galeria */
 
             if (scrollToGallery) {
 
@@ -2879,10 +2781,6 @@
 
         /* =====================================================
            PROTECCIONS BÀSIQUES
-
-           NOTA:
-           Açò només dificulta determinades accions de l'usuari.
-           No impedeix realment guardar les imatges des d'un navegador.
         ===================================================== */
 
         document.addEventListener(
@@ -2942,3 +2840,4 @@
 
 </body>
 </html>
+
