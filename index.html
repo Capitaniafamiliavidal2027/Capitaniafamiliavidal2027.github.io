@@ -18,6 +18,21 @@
         rel="stylesheet"
     >
 
+    <!-- =========================================================
+       
+         Measurement ID: G-V7C57JTJTQ
+         ========================================================= -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7C57JTJTQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+
+        gtag('js', new Date());
+        gtag('config', 'G-V7C57JTJTQ', {
+            send_page_view: true
+        });
+    </script>
+
     <style>
 
         /* =========================================================
@@ -2776,6 +2791,231 @@
 
             }
         );
+
+
+        /* =====================================================
+           SEGUIMENT DE LA GALERIA
+
+
+        ===================================================== */
+
+        function analyticsEvent(eventName, params = {}) {
+
+            if (typeof gtag !== 'function') return;
+
+            gtag('event', eventName, params);
+
+        }
+
+
+        /* -----------------------------------------------------
+           IDENTIFICACIÓ DE DISPOSITIU / CONTEXT DE GALERIA
+        ----------------------------------------------------- */
+
+        analyticsEvent('gallery_view', {
+            gallery_name: 'Capitania Família Vidal 2027',
+            gallery_type: 'fotografia',
+            location: 'Onil, Espanya'
+        });
+
+
+        /* -----------------------------------------------------
+           CANVI D'ACTE
+        ----------------------------------------------------- */
+
+        const originalSelectAct = selectAct;
+
+        selectAct = function(sessionName, scrollToGallery = true) {
+
+            analyticsEvent('gallery_section_view', {
+                gallery_name: 'Capitania Família Vidal 2027',
+                section_name: sessionName === 'manana'
+                    ? 'Día de l’Estudiant — Matí'
+                    : 'Día de l’Estudiant — Vesprada',
+                section_id: sessionName
+            });
+
+            return originalSelectAct(sessionName, scrollToGallery);
+
+        };
+
+
+        /* -----------------------------------------------------
+           FOTOGRAFIA ABIERTA EN LIGHTBOX
+        ----------------------------------------------------- */
+
+        const originalOpenLightbox = openLightbox;
+
+        openLightbox = function(src, captionText) {
+
+            const currentSection =
+                captionText.indexOf('VESPRADA') !== -1
+                    ? 'tarde'
+                    : 'manana';
+
+            const match = captionText.match(/Làmina\s+(\d+)/i);
+            const photoNumber = match ? Number(match[1]) : undefined;
+
+            analyticsEvent('photo_open', {
+                gallery_name: 'Capitania Família Vidal 2027',
+                section_id: currentSection,
+                section_name: currentSection === 'manana'
+                    ? 'Día de l’Estudiant — Matí'
+                    : 'Día de l’Estudiant — Vesprada',
+                photo_number: photoNumber,
+                photo_caption: captionText,
+                photo_path: src
+            });
+
+            return originalOpenLightbox(src, captionText);
+
+        };
+
+
+        /* -----------------------------------------------------
+           TANCAMENT DE FOTOGRAFIA
+        ----------------------------------------------------- */
+
+        const originalCloseLightbox = closeLightbox;
+
+        closeLightbox = function() {
+
+            analyticsEvent('photo_close', {
+                gallery_name: 'Capitania Família Vidal 2027'
+            });
+
+            return originalCloseLightbox();
+
+        };
+
+
+        /* -----------------------------------------------------
+           CLIC AL LOGOTIP / RETORN A LA PORTADA
+        ----------------------------------------------------- */
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const logoLink = document.querySelector('.header-logo');
+
+            if (logoLink) {
+
+                logoLink.addEventListener('click', () => {
+
+                    analyticsEvent('navigation_click', {
+                        navigation_type: 'logo',
+                        destination: 'index.html'
+                    });
+
+                });
+
+            }
+
+        });
+
+
+        /* -----------------------------------------------------
+           PROFUNDIDAD DE SCROLL
+        
+        ----------------------------------------------------- */
+
+        const scrollMilestones = [25, 50, 75, 90, 100];
+        const scrollSent = new Set();
+
+        function trackGalleryScroll() {
+
+            const doc = document.documentElement;
+            const maxScroll = doc.scrollHeight - window.innerHeight;
+
+            if (maxScroll <= 0) return;
+
+            const percentage = Math.round(
+                (window.scrollY / maxScroll) * 100
+            );
+
+            scrollMilestones.forEach(milestone => {
+
+                if (
+                    percentage >= milestone &&
+                    !scrollSent.has(milestone)
+                ) {
+
+                    scrollSent.add(milestone);
+
+                    analyticsEvent('gallery_scroll_depth', {
+                        gallery_name: 'Capitania Família Vidal 2027',
+                        percent_scrolled: milestone
+                    });
+
+                }
+
+            });
+
+        }
+
+        window.addEventListener('scroll', trackGalleryScroll, { passive: true });
+
+
+        /* -----------------------------------------------------
+           TIEMPO DE INTERACCIÓN PROFUNDA
+           No sustituye al engagement_time_msec de GA4; añade
+           hitos útiles específicamente para esta galería.
+        ----------------------------------------------------- */
+
+        [30, 60, 120, 300].forEach(seconds => {
+
+            window.setTimeout(() => {
+
+                analyticsEvent('gallery_time_milestone', {
+                    gallery_name: 'Capitania Família Vidal 2027',
+                    seconds_on_page: seconds
+                });
+
+            }, seconds * 1000);
+
+        });
+
+
+        /* -----------------------------------------------------
+           VISIBILIDAD DE LA GALERÍA
+        ----------------------------------------------------- */
+
+        const gallerySection =
+            document.getElementById('galeria-actos');
+
+        if (gallerySection && 'IntersectionObserver' in window) {
+
+            let gallerySeen = false;
+
+            const galleryObserver =
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(entry => {
+
+                            if (
+                                entry.isIntersecting &&
+                                !gallerySeen
+                            ) {
+
+                                gallerySeen = true;
+
+                                analyticsEvent('gallery_reached', {
+                                    gallery_name: 'Capitania Família Vidal 2027'
+                                });
+
+                                galleryObserver.disconnect();
+
+                            }
+
+                        });
+
+                    },
+                    { threshold: 0.25 }
+                );
+
+            galleryObserver.observe(gallerySection);
+
+        }
 
 
         /* =====================================================
